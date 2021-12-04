@@ -1,0 +1,57 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Install the necessary cloud packages, including kafka and unzipping it
+#
+---
+# - name: Installing packages on the VMs
+#   hosts: MyChameleonVMs  # remember, the requestor is the local machine
+#     #update ubuntu machine
+#   remote_user:  
+#      cc
+#   tasks:
+  - name: Update Machine
+    apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    become: yes
+
+    #Install Wget
+  - name: Install Wget
+    apt: name=wget state=latest
+    become: yes
+
+    #Install python3
+  - name: Install Python
+    apt: name=python3 state=latest
+    become: yes
+
+  - name: Install python modules  
+    pip:
+      name:
+      - kafka-python
+      - couchdb
+
+    #Install JAVA SDK
+  - name: Install Java
+    apt: name=default-jdk state=latest
+    become: yes
+
+    #Create Apps directory
+  - name: Create Apps directory
+    file:
+      path: /home/cc/Apps/
+      state: directory
+
+    #Download kafka
+  - name: Download kafka
+    get_url:
+      url: https://dlcdn.apache.org/kafka/3.0.0/kafka_2.13-3.0.0.tgz
+      dest: /home/cc/
+    
+    #Unarchive kafka
+  - name: Extract kafa*.tgz into /home/cc/Apps
+    ansible.builtin.unarchive:
+      remote_src: yes
+      src: ~/kafka_2.13-3.0.0.tgz
+      dest: /home/cc/Apps/
+...

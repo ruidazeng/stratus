@@ -1,0 +1,89 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# We will create the chameleon VMs and modify the server.properties, inventory, and
+# producer files with the obtained IP addresses
+#
+---
+# - name: "Create Chameleon instance"
+#   hosts:
+#     MyLocalVMs
+#   connection: local
+#   collections: 
+#     - openstack.cloud
+
+#   tasks:    # the task to be performed (here I am showing the effect of include_)
+  - name: Launch VM2 instance
+    openstack.cloud.server:
+        state: present
+        name: team_4_5_VM2
+        image: 2067e3e4-057b-4fb9-a7f9-e8688cd5012b
+        key_name: jh_ku_chameleon
+        flavor: m1.xlarge
+        timeout: 500
+        security_groups: 
+          - ENABLE_HTTP_HTTPS
+          - ENABLE_KAFKA_COUCHDB
+          - ENABLE_SSH
+          - ENABLE_K8S
+        nics:
+          - net_id: 4b484898-92b4-4a4b-9c5d-7d55bd72f1ee
+          - net-name: CH-819381-net
+        auto_ip: yes
+    register: output
+  
+  - name: Print VM2 output
+    debug:
+      msg: "{{ output['openstack']['addresses']['CH-819381-net'][0]['addr'], output['openstack']['addresses']['CH-819381-net'][1]['addr'] }}"
+
+  - name: "Copy producer IP into producer file"
+    ansible.builtin.lineinfile:
+        state: present
+        path: ~/producer.py
+        firstmatch: yes
+        search_string: 'producer = KafkaProducer(bootstrap_servers="129.114.26.3:30003", api_version=(0, 1, 0), acks=0)'
+        line: 'producer = KafkaProducer (bootstrap_servers="{{ output["openstack"]["addresses"]["CH-819381-net"][1]["addr"] }}:30003", api_version=(0,1,0), acks=0)'
+
+  - name: "Add VM2 to MyChameleonVMs dynamically"
+    add_host:
+      hostname: "{{ output['openstack']['addresses']['CH-819381-net'][1]['addr'] }}"
+      ansible_connection: ssh
+      ansible_ssh_private_key_file: "/home/vagrant/.ssh/jh_ku_chameleon.key"
+      groups: MyChameleonVMs
+
+  - name: Launch VM3 instance
+    openstack.cloud.server:
+        state: present
+        name: team_4_5_VM3
+        image: 2067e3e4-057b-4fb9-a7f9-e8688cd5012b
+        key_name: jh_ku_chameleon
+        flavor: m1.xlarge
+        timeout: 500
+        security_groups: 
+          - ENABLE_HTTP_HTTPS
+          - ENABLE_KAFKA_COUCHDB
+          - ENABLE_SSH
+          - ENABLE_K8S
+        nics:
+          - net_id: 4b484898-92b4-4a4b-9c5d-7d55bd72f1ee
+          - net-name: CH-819381-net
+        auto_ip: yes
+    register: output
+
+  - name: Print VM3 output
+    debug:
+      msg: "{{ output['openstack']['addresses']['CH-819381-net'][0]['addr'], output['openstack']['addresses']['CH-819381-net'][1]['addr'] }}"
+
+  - name: "Add VM3 to MyChameleonVMs dynamically"
+    add_host:
+      hostname: "{{ output['openstack']['addresses']['CH-819381-net'][1]['addr'] }}"
+      ansible_connection: ssh
+      ansible_ssh_private_key_file: "/home/vagrant/.ssh/jh_ku_chameleon.key"
+      groups: MyChameleonVMs
+
+  - name: Pause for 5 minutes to build VM3 settings
+    pause:
+      minutes: 5
+
+...

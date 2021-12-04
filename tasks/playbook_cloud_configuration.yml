@@ -1,0 +1,127 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# We will configure the firewall settings in this playbook
+#
+---
+# - name: Configuring cloud firewall settings
+#   hosts: MyChameleonVMs  # remember, the requestor is the local machine
+#     #update ubuntu machine
+#   remote_user:  cc
+#   become: yes
+#   tasks:
+    #Manage firewall settings
+    #For kafka
+  - name: Limit access to tcp port 9092
+    community.general.ufw:
+      rule: limit
+      port: '9092'
+      proto: tcp
+
+    # For zookeeper
+  - name: Limit access to tcp port 2181
+    community.general.ufw:
+      rule: limit
+      port: '2181'
+      proto: tcp
+    
+    # For CouchDB
+  - name: Limit access to tcp port 5984
+    community.general.ufw:
+      rule: limit
+      port: '5984'
+      proto: tcp
+
+      # For etcd server
+  - name: Limit access to tcp port 2379 - 2380
+    community.general.ufw:
+      rule: limit
+      from_port: '2379'
+      to_port: '2380'
+      proto: tcp
+
+  - name: Limit access to tcp port 7076 - 7079
+    community.general.ufw:
+      rule: limit
+      port: 7076:7079
+      proto: tcp
+
+  - name: Limit access to tcp port 8080 - 8081
+    community.general.ufw:
+      rule: limit
+      port: 8080:8081
+      proto: tcp
+  
+  - name: Limit access to tcp port 7076 - 7079
+    community.general.ufw:
+      rule: limit
+      port: 7076:7079
+      proto: tcp
+
+  - name: Limit access to tcp port 30000 - 30010
+    community.general.ufw:
+      rule: limit
+      port: 30000:30010
+      proto: tcp
+
+  - name: Limit access to tcp port 4040
+    community.general.ufw:
+      rule: limit
+      port: '4040'
+      proto: tcp
+
+  - name: Limit access to tcp port 5000
+    community.general.ufw:
+      rule: limit
+      port: '5000'
+      proto: tcp
+
+  - name: Limit access to tcp port 6443
+    community.general.ufw:
+      rule: limit
+      port: '6443'
+      proto: tcp
+
+  - name: Limit access to tcp port 8001
+    community.general.ufw:
+      rule: limit
+      port: '8001'
+      proto: tcp
+
+  - name: Limit access to tcp port 10248
+    community.general.ufw:
+      rule: limit
+      port: '10248'
+      proto: tcp
+
+  - name: Limit access to tcp port 10250
+    community.general.ufw:
+      rule: limit
+      port: '10250'
+      proto: tcp
+
+  - name: Limit access to tcp port 10257
+    community.general.ufw:
+      rule: limit
+      port: '10257'
+      proto: tcp
+
+  - name: Limit access to tcp port 10259
+    community.general.ufw:
+      rule: limit
+      port: '10259'
+      proto: tcp
+
+  - name: Limit access to tcp port 8285
+    community.general.ufw:
+      rule: limit
+      port: '8285'
+      proto: tcp
+
+  - name: Limit access to tcp port 8472
+    community.general.ufw:
+      rule: limit
+      port: '8472'
+      proto: tcp
+...

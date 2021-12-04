@@ -1,0 +1,45 @@
+---
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start kubernetes master on VM2 
+#
+
+  - name: Modify hosts file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /etc/hosts
+        firstmatch: yes
+        insertafter: "127.0.0.1 localhost"
+        line: '{{ ansible_ssh_host }} kubemaster kubeworker1'
+  
+  - name: Sudo kubeadm reset
+    shell: yes | sudo kubeadm reset
+
+  - name: Sudo kubeadm init
+    shell:  sudo kubeadm init --node-name kubemaster --pod-network-cidr=10.244.0.0/16
+
+  - name: kube directory
+    become: no
+    shell: mkdir /home/cc/.kube
+  
+  - name: copy file
+    shell: cp -r /etc/kubernetes/admin.conf /home/cc/.kube/config
+  
+  - name: Modify permissions
+    shell: chown 1000:1011 /home/cc/.kube/config
+  
+  - name: Add the flannel
+    become: no
+    shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+  - name: Taint the master
+    become: no
+    shell: kubectl taint nodes kubemaster node-role.kubernetes.io/master:NoSchedule-
+
+  - name: Get worker code
+    become: no
+    shell: kubeadm token create --print-join-command
+    register: worker_code
+...

@@ -1,0 +1,49 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Spark master creation
+#
+---
+#Copy service file from vagrant to Service directory
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/spark-master-svc.yml
+        dest: /home/cc/Service/spark-master-svc.yml
+
+#Copy deployment job file from vagrant to Service directory
+  - name: Copy deployment file to VM2
+    become: no
+    copy:
+        src: ~/spark-master-deploy.yml
+        dest: /home/cc/Service/spark-master-deploy.yml
+
+#Make infile modification for service deployment file
+  - name: Make infile modification for service deployment file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/spark-master-deploy.yml
+        firstmatch: yes
+        search_string: 'image: 129.114.25.80:5000/my-spark:latest'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/spark_image'
+
+  - name: Make infile modification for service deployment file public IP
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/spark-master-deploy.yml
+        firstmatch: yes
+        search_string: 'value: "129.114.26.3"'
+        line: '              value: {{ ansible_ssh_host }}'
+
+#start job with service
+  - name: Create the spark master service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/spark-master-svc.yml
+
+  - name: Start spark master deployment
+    become: no
+    shell: kubectl apply -f /home/cc/Service/spark-master-deploy.yml
+
+
+...

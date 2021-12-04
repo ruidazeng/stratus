@@ -1,0 +1,47 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start zookeeper service and job
+#
+---
+#Create a service directory on VM2
+  - name: Create service directory
+    become: no
+    ansible.builtin.file:
+        path: /home/cc/Service
+        state: directory
+
+#Copy service file from vagrant to Service directory
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/zookeeper_service_svc.yml
+        dest: /home/cc/Service/zookeeper_service_svc.yml
+
+#Copy service job file from vagrant to Service directory
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/zookeeper_service_job.yml
+        dest: /home/cc/Service/zookeeper_service_job.yml
+
+#Make infile modification for service job file
+  - name: Make infile modification for service job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/zookeeper_service_job.yml
+        firstmatch: yes
+        search_string: 'image: localhost:5000/matinv-server'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/kafka_zoo_image'
+
+#start job with service
+  - name: Create the zookeeper service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/zookeeper_service_svc.yml
+
+  - name: Start zookeeper job
+    become: no
+    shell: kubectl apply -f /home/cc/Service/zookeeper_service_job.yml
+
+...

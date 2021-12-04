@@ -1,0 +1,45 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start docker image and create registry
+#
+---
+#Create a deployment directory on VM2
+  - name: Create Deployment directory
+    become: no
+    ansible.builtin.file:
+        path: /home/cc/Deployment
+        state: directory
+
+
+  - name: Create Service directory
+    become: no
+    ansible.builtin.file:
+        path: /home/cc/Service
+        state: directory
+
+#copy dockerfile from vagrant to VM2
+  - name: Copy docker file to VM2
+    become: no
+    copy:
+        src: ~/Kafka_Zoo_Deployment_dockerfile
+        dest: /home/cc/Deployment/kafka_zoo_dockerfile
+
+#Create the docker image
+  - name: Create the docker image
+    shell: docker build -f /home/cc/Deployment/kafka_zoo_dockerfile -t kafka_zoo_image .
+
+#Create the private registry
+  - name: Create the private registry
+    shell: docker run -d -p 5000:5000 --restart=always --name kzreg registry:2
+
+    #Tag docker image
+  - name: Tag docker image
+    shell: docker tag kafka_zoo_image:latest {{ ansible_default_ipv4.address }}:5000/kafka_zoo_image
+
+    #Push docker image
+  - name: Push docker image
+    shell: docker push {{ ansible_default_ipv4.address }}:5000/kafka_zoo_image
+
+...

@@ -1,0 +1,22 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Zookeeper service file
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-server-svc
+spec:
+  type: NodePort   # by using NodePort, the service is published to outside world.
+  selector:
+    app: zookeeper-server-app     # used to match the pod(s) that run the actual matinv server
+  ports:
+    - name: zookeeper-server-port    # not needed, but I have added this
+      protocol: TCP     # this is default (so not needed either)
+      port: 2181   # the port used by the server inside the pod/container
+      targetPort: 2181   # not sure if we need this because if not specified, it is same as port
+      nodePort: 30000  # this is what will be externally published
+...

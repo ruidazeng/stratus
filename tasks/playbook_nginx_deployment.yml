@@ -1,0 +1,32 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Nginx Deployment and Service creation
+#
+---
+#Copy service file from vagrant to Service directory
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/nginx-service.yml
+        dest: /home/cc/Service/nginx-service.yml
+
+#Copy deployment job file from vagrant to Service directory
+  - name: Copy deployment file to VM2
+    become: no
+    copy:
+        src: ~/nginx-deployment.yml
+        dest: /home/cc/Service/nginx-deployment.yml
+
+#start job with service
+  - name: Create the nginx service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/nginx-service.yml
+
+  - name: Start nginx deployment
+    become: no
+    shell: kubectl apply -f /home/cc/Service/nginx-deployment.yml
+
+
+...

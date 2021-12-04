@@ -1,0 +1,27 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Spark master service declaration
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-master-svc
+spec:
+  type: NodePort   # we want this published outside so outside entities can reach it
+  selector:
+    app: sparkMasterApp     # used for matching
+  ports:
+    - name: spark-master-port   # not really needed
+      protocol: TCP  # this is default
+      port: 7077
+      targetPort: 7077   # if not specified, is the same as port
+      nodePort: 30007    # externally as 30000
+    - name: spark-gui-port   # not really needed
+      protocol: TCP  # this is default
+      port: 8080
+      targetPort: 8080   # if not specified, is the same as port
+      nodePort: 30008    # externally as 30000
+...

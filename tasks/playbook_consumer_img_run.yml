@@ -1,0 +1,72 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start consumer image, add to registry, and execute pod
+#
+---
+# copy dockerfile from vagrant to VM2
+  - name: Copy docker file to VM2
+    become: no
+    copy:
+        src: ~/consumer_dockerfile
+        dest: /home/cc/Deployment/consumer_dockerfile
+
+  - name: Copy job file to VM2
+    become: no
+    copy:
+        src: ~/consumer_job.yml
+        dest: /home/cc/Service/consumer_job.yml
+
+  - name: Copy consumer file to VM2
+    become: no
+    copy:
+        src: ~/consumer.py
+        dest: /home/cc/consumer.py
+
+#Make infile modification for consumer file
+  - name: Make infile modification for consumer file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/consumer.py
+        firstmatch: yes
+        search_string: 'consumer = KafkaConsumer(bootstrap_servers="129.114.26.3:30002")'
+        line: 'consumer = KafkaConsumer(bootstrap_servers="{{ ansible_ssh_host }}:30002")'
+
+  - name: Make infile modification for consumer file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/consumer.py
+        firstmatch: yes
+        search_string: 'couch = couchdb.Server("http://admin:cloud123@129.114.26.3:30006")'
+        line: 'couch = couchdb.Server("http://admin:cloud123@{{ ansible_ssh_host }}:30006")'
+
+
+#Create the docker image
+  - name: Create the docker image
+    shell: docker build -f /home/cc/Deployment/consumer_dockerfile -t consumer_img .
+
+    #Tag docker image
+  - name: Tag docker image 
+    shell: docker tag consumer_img:latest {{ ansible_default_ipv4.address }}:5000/consumer_img
+
+    #Push docker image
+  - name: Push docker image
+    shell: docker push {{ ansible_default_ipv4.address }}:5000/consumer_img
+
+#Make infile modification for service job file
+  - name: Make infile modification for  job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/consumer_job.yml
+        firstmatch: yes
+        search_string: 'image: localhost:5000/matinv-server'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/consumer_img'
+
+#start job with service
+  - name: Create the consumer job
+    become: no
+    shell: kubectl apply -f /home/cc/Service/consumer_job.yml
+
+
+...

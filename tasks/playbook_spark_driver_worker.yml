@@ -1,0 +1,58 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Spark driver and worker file
+#
+---
+#Copy service file from vagrant to Service directory
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/spark-driver-svc.yml
+        dest: /home/cc/Service/spark-driver-svc.yml
+
+#Copy deployment job file from vagrant to Service directory
+  - name: Copy deployment file to VM2
+    become: no
+    copy:
+        src: ~/spark-driver-deploy.yml
+        dest: /home/cc/Service/spark-driver-deploy.yml
+
+#Copy deployment job file from vagrant to Service directory
+  - name: Copy worker deployment file to VM2
+    become: no
+    copy:
+        src: ~/spark-worker-deploy.yml
+        dest: /home/cc/Service/spark-worker-deploy.yml
+
+#Make infile modification for service deployment file
+  - name: Make infile modification for service deployment file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/spark-driver-deploy.yml
+        firstmatch: yes
+        search_string: 'image: 129.114.25.80:5000/my-spark:latest'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/spark_image'
+
+  - name: Make infile modification for service deployment file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/spark-worker-deploy.yml
+        firstmatch: yes
+        search_string: 'image: 129.114.25.80:5000/my-spark:latest'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/spark_image'
+
+#start job with service
+  - name: Create the spark worker service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/spark-worker-deploy.yml
+
+  - name: Create the spark driver service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/spark-driver-svc.yml
+
+  - name: Start spark driver deployment
+    become: no
+    shell: kubectl apply -f /home/cc/Service/spark-driver-deploy.yml
+...

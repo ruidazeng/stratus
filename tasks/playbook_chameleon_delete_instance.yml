@@ -1,0 +1,21 @@
+---
+- name: "Delete Chameleon instances"
+  hosts:
+    MyLocalVMs
+  connection: local
+  collections: 
+    - openstack.cloud
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  - name: Delete VM2 instance
+    openstack.cloud.server:
+        name: team_4_5_VM2
+        timeout: 500
+        state: absent
+
+  - name: Delete VM3 instance
+    openstack.cloud.server:
+        name: team_4_5_VM3
+        timeout: 500
+        state: absent
+...

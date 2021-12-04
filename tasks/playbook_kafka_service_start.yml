@@ -1,0 +1,138 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start kafka service and job
+#
+---
+
+############### Copy files ##################################
+
+#Copy service file from vagrant to Service directory -- broker 0 
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/kafka_broker_0_service.yml
+        dest: /home/cc/Service/kafka_broker_0_service.yml
+
+#Copy service job file from vagrant to Service directory -- broker 0
+  - name: Copy job file to VM2
+    become: no
+    copy:
+        src: ~/kafka_broker_0_job.yml
+        dest: /home/cc/Service/kafka_broker_0_job.yml
+
+#Copy service file from vagrant to Service directory -- broker 1 
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/kafka_broker_1_service.yml
+        dest: /home/cc/Service/kafka_broker_1_service.yml
+
+#Copy service job file from vagrant to Service directory -- broker 1
+  - name: Copy job file to VM2
+    become: no
+    copy:
+        src: ~/kafka_broker_1_job.yml
+        dest: /home/cc/Service/kafka_broker_1_job.yml
+
+#Copy service file from vagrant to Service directory -- broker 2 
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: ~/kafka_broker_2_service.yml
+        dest: /home/cc/Service/kafka_broker_2_service.yml
+
+#Copy service job file from vagrant to Service directory -- broker 2
+  - name: Copy job file to VM2
+    become: no
+    copy:
+        src: ~/kafka_broker_2_job.yml
+        dest: /home/cc/Service/kafka_broker_2_job.yml
+
+############### Make inline modifications #####################
+
+#Make infile modification for service job file -- broker 0
+  - name: Make infile modification for job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/kafka_broker_0_job.yml
+        firstmatch: yes
+        search_string: 'image: localhost:5000/matinv-server'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/kafka_zoo_image'
+
+#Make infile modification for service job file -- broker 1
+  - name: Make infile modification for job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/kafka_broker_1_job.yml
+        firstmatch: yes
+        search_string: 'image: localhost:5000/matinv-server'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/kafka_zoo_image'
+
+
+#Make infile modification for service job file -- broker 2
+  - name: Make infile modification for job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/kafka_broker_2_job.yml
+        firstmatch: yes
+        search_string: 'image: localhost:5000/matinv-server'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/kafka_zoo_image'
+
+
+  - name: Broker 0 IP string replace
+    become: no
+    replace: 
+      path: /home/cc/Service/kafka_broker_0_job.yml
+      regexp: 'Proposed_IP'
+      replace: "{{ ansible_ssh_host }}"
+
+  - name: Broker 1 IP string replace
+    become: no
+    replace: 
+      path: /home/cc/Service/kafka_broker_1_job.yml
+      regexp: 'Proposed_IP'
+      replace: "{{ ansible_ssh_host }}"
+
+  - name: Broker 2 IP string replace
+    become: no
+    replace: 
+      path: /home/cc/Service/kafka_broker_2_job.yml
+      regexp: 'Proposed_IP'
+      replace: "{{ ansible_ssh_host }}"
+
+
+############## Start kafka job and service ##################
+
+#start kafka job with service
+
+
+#Broker 0
+  - name: Create the kafka service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/kafka_broker_0_service.yml
+
+  - name: Start kafka job
+    become: no
+    shell: kubectl apply -f /home/cc/Service/kafka_broker_0_job.yml
+
+#Broker 1
+  - name: Create the kafka service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/kafka_broker_1_service.yml
+
+  - name: Start kafka job
+    become: no
+    shell: kubectl apply -f /home/cc/Service/kafka_broker_1_job.yml
+
+#Broker 2
+  - name: Create the kafka service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/kafka_broker_2_service.yml
+
+  - name: Start kafka job
+    become: no
+    shell: kubectl apply -f /home/cc/Service/kafka_broker_2_job.yml
+
+...

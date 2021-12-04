@@ -1,0 +1,24 @@
+---
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start Kubernetes and modify host file
+#
+
+  - name: Modify hosts file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /etc/hosts
+        firstmatch: yes
+        insertafter: "127.0.0.1 localhost"
+        line: '{{ ansible_ssh_host }} kubeworker2'
+
+  - name: Sudo kubeadm reset
+    shell: yes | sudo kubeadm reset
+    
+  - name: Join Master
+    shell: "{{ hostvars[groups['MyChameleonVMs'][0]]['worker_code']['stdout'] }}--node-name kubeworker2" 
+
+
+...

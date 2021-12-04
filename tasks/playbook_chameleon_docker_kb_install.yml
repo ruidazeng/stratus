@@ -1,0 +1,135 @@
+---
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Install docker and kubernetes on VMs
+#
+
+
+# - name: Install Packages and Docker 
+#   hosts: MyChameleonVMs  # remember, the requestor is the local machine
+#   remote_user:  cc
+#   become: yes
+#   tasks:
+  - name: Update packages
+    apt: update_cache=yes
+
+  - name: Install apt-transport-https
+    apt: name=apt-transport-https state=latest
+
+  - name: Install ca-certificates
+    apt: name=ca-certificates state=latest
+
+  - name: Install curl
+    apt: name=curl state=latest
+
+  - name: Install gnupg 
+    apt: name=gnupg state=latest
+
+  - name: Install gnupg-agent 
+    apt: name=gnupg-agent state=latest
+
+  - name: Install software-properties-common 
+    apt: name=software-properties-common state=latest
+
+  - name: Install lsb-release 
+    apt: name=lsb-release state=latest
+
+  #Docker Installation
+  - name: Remove GPG key if exists
+    ansible.builtin.file:
+        path: /usr/share/keyrings/docker-archive-keyring.gpg
+        state: absent
+    
+
+  - name: Add Docker's official GPG key
+    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+  - name: Set up stable repository
+    shell: echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+  - name: Update packages
+    apt: update_cache=yes
+
+  - name: Install docker-ce
+    apt: name=docker-ce state=latest
+
+  - name: Install docker-ce-cli
+    apt: name=docker-ce-cli state=latest
+
+  - name: Install containerd.io
+    apt: name=containerd.io state=latest
+
+  - name: Ensure group "docker" exists 
+    ansible.builtin.group:
+      name: docker
+      state: present
+
+  - name: Add group docker
+    ansible.builtin.user:
+        name: cc
+        # group: cc
+        shell: /bin/bash
+        groups: docker
+        append: yes
+        state: present
+
+  - name: reset ssh connection
+    meta: reset_connection
+
+  - name: "Modify Docker container file"
+    ansible.builtin.lineinfile:
+        state: present
+        path: /lib/systemd/system/docker.service
+        firstmatch: yes
+        search_string: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock'
+        line: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd'
+
+  - name: "Modify Docker registry file"
+    ansible.builtin.copy:
+      dest: /etc/docker/daemon.json
+      content: | 
+        { 
+          "insecure-registries" : ["{{ hostvars[groups['MyChameleonVMs'][0]]['ansible_default_ipv4']['address'] }}:5000"]
+        }
+
+  - name: Daemon reload
+    shell: sudo systemctl daemon-reload
+
+  - name: Restart docker
+    shell: sudo systemctl restart docker
+
+  - name:  Docker status
+    shell: sudo systemctl status docker
+    register: output
+
+  #Kubernetes installation
+  - name: Install apt-transport-https
+    apt: name=apt-transport-https state=latest
+
+  - name: Curl packages
+    shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+  - name: Echo install packages
+    shell: echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+  - name: Update packages
+    apt: update_cache=yes
+
+  - name: Install Kubernetes
+    apt: name=kubectl state=latest
+
+  - name: Install kubeadm
+    apt: name=kubeadm state=latest
+
+  - name: Install kubelet
+    apt: name=kubelet state=latest
+
+  - name: Install kubernetes-cni
+    apt: name=kubernetes-cni state=latest
+
+  - name: Disable swap
+    shell: sudo swapoff -a
+
+...

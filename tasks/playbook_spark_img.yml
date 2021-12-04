@@ -1,0 +1,51 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Spark docker image creation
+#
+---
+#copy dockerfile from vagrant to VM2
+  - name: Copy docker file to VM2
+    become: no
+    copy:
+        src: ~/spark_dockerfile
+        dest: /home/cc/Deployment/spark_dockerfile
+
+#Copy other service files to vagrant VM
+  - name: Copy spark-env.sh file to VM2
+    become: no
+    copy:
+        src: ~/spark-env.sh
+        dest: /home/cc/spark-env.sh
+
+  - name: Copy spark-driver.conf file to VM2
+    become: no
+    copy:
+        src: ~/spark-driver.conf
+        dest: /home/cc/spark-driver.conf
+
+  - name: Copy spark-worker.conf file to VM2
+    become: no
+    copy:
+        src: ~/spark-worker.conf
+        dest: /home/cc/spark-worker.conf
+  
+  - name: Copy ML-deployment.py file to VM2
+    become: no
+    copy:
+        src: ~/ML-deployment.py
+        dest: /home/cc/ML-deployment.py
+
+  #Create the docker image
+  - name: Create the docker image
+    shell: docker build -f /home/cc/Deployment/spark_dockerfile -t spark_image .
+
+    #Tag docker image
+  - name: Tag docker image 
+    shell: docker tag spark_image:latest {{ ansible_default_ipv4.address }}:5000/spark_image
+
+    #Push docker image
+  - name: Push docker image
+    shell: docker push {{ ansible_default_ipv4.address }}:5000/spark_image
+...

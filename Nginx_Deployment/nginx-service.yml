@@ -1,0 +1,23 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Spark master service declaration
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: NodePort   # we want this published outside so outside entities can reach it
+  selector:
+    app: nginx     # used for matching
+  ports:
+    - name: nginx-port   # not really needed
+      protocol: TCP  # this is default
+      port: 80
+      targetPort: 80   # if not specified, is the same as port
+      nodePort: 30009    # externally as 80
+
+...

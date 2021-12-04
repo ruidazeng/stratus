@@ -1,0 +1,16 @@
+# Author: Aadarsh Jha and Ashwin Kumar
+# Description: Dockerfile for kafka and zookeeper
+#
+# First, use the latest ubuntu image, which points to the
+# latest LTS image, currently 20.04LTS
+FROM ubuntu:latest
+#
+# Now install the needed packages
+RUN apt-get -y update && apt-get install -y wget openjdk-8-jdk
+#
+#Install Kafka
+COPY kafka_2.13-3.0.0.tgz /
+RUN tar -xzf kafka_2.13-3.0.0.tgz
+#
+# Run a command shell (for Swarm and Kubernetes, we comment this out)
+#CMD /bin/bash

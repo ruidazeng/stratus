@@ -1,0 +1,38 @@
+---
+#
+# Author: Aniruddha Gokhale
+# EECS 4287/5287: Principles of Cloud Computing
+# Created: Fall 2016
+# Modified: Fall 2018
+# Modified: Fall 2020
+#
+# In this playbook we get will install the necessary packages on our local VM for operation
+#
+  - name: Install acl
+    apt: name=acl state=latest
+    become: yes
+
+  - name: Update packages
+    apt: update_cache=yes
+    become: yes
+
+  - name: install pip3
+    apt: name=python3-pip state=present 
+    become: yes
+
+  - name: Install python modules  
+    pip:
+      name:
+      - kafka-python
+      - pymongo
+      - openstacksdk
+      - pandas
+
+  - name: install UFW
+    command: ansible-galaxy collection install community.general
+
+  - name: install openstack server
+    command: ansible-galaxy collection install openstack.cloud                
+
+...
+
