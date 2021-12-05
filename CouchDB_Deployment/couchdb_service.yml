@@ -1,0 +1,22 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# couchdb service file
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: couchdb-server-svc
+spec:
+  type: NodePort   # by using NodePort, the service is published to outside world.
+  selector:
+    app: couchdb-server-app     # used to match the pod(s) that run the actual matinv server
+  ports:
+    - name: couchdb-server-port    # not needed, but I have added this
+      protocol: TCP     # this is default (so not needed either)
+      port: 5984   # the port used by the server inside the pod/container
+      targetPort: 5984   # not sure if we need this because if not specified, it is same as port
+      nodePort: 30006  # this is what will be externally published
+...

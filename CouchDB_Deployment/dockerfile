@@ -1,0 +1,22 @@
+# Author: Aadarsh Jha and Ashwin Kumar
+# Description: Dockerfile for kafka and zookeeper
+#
+# First, use the latest ubuntu image, which points to the
+# latest LTS image, currently 20.04LTS
+FROM couchdb
+
+ADD local.ini /opt/couchdb/etc/
+# FROM ubuntu:latest
+# #
+# # Now install the needed packages
+# RUN apt-get -y update && apt-get install -y curl apt-transport-https gnupg
+# #
+# #Install Kafka
+# RUN curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor | sudo tee /usr/share/keyrings/couchdb-archive-keyring.gpg >/dev/null 2>&1
+# RUN echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb/ focal main" | sudo tee /etc/apt/sources.list.d/couchdb.list >/dev/null
+# RUN apt-get -y update & apt-get install couchdb
+# RUN sed -i '/\[chttpd\]/a bind_address = 0.0.0.0' /opt/couchdb/etc/local.ini
+# RUN sed -i '/\[admins\]/a admin = cloud123' /opt/couchdb/etc/local.ini
+#
+# Run a command shell (for Swarm and Kubernetes, we comment this out)
+#CMD /bin/bash

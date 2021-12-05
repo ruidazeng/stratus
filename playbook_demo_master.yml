@@ -108,10 +108,10 @@
 #   tasks:
 #   - include_tasks: tasks/playbook_chameleon_VM3_KB_start.yml
 
-####################################################
-## Play 8: Start docker image and create registry
-####################################################
-# - name: "Play 8: Run docker pipeline for zookeeper, kafka, and consumer"
+# ####################################################
+# ## Play 8: Start docker image and create registry
+# ####################################################
+# - name: "Play 8: Run docker pipeline for zookeeper, kafka"
 #   hosts: MyChameleonVMs[0]  
 #   remote_user:  cc
 #   become: yes
@@ -119,7 +119,9 @@
 #   - include_tasks: tasks/playbook_docker_img_reg.yml
   # - include_tasks: tasks/playbook_zookeeper_service_start.yml
   # - include_tasks: tasks/playbook_kafka_service_start.yml
-  # - include_tasks: tasks/playbook_consumer_img_run.yml
+  # - include_tasks: tasks/playbook_couchdb_img.yml
+  # - include_tasks: tasks/playbook_couchdb_run.yml
+  
 
 # ####################################################
 # ## Play 10: Run Spark Pipeline
@@ -142,6 +144,16 @@
 #   become: yes
 #   tasks:
 #   - include_tasks: tasks/playbook_nginx_deployment.yml
+
+# ####################################################
+# ## Play 12: Run Consumer
+# ####################################################
+# - name: "Play 12: Run Consumer"
+#   hosts: MyChameleonVMs[0]  
+#   remote_user:  cc
+#   become: yes
+#   tasks:
+#   - include_tasks: tasks/playbook_consumer_img_run.yml
 
 ...
 

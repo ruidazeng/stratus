@@ -88,12 +88,17 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "MyInventory", destination: "~/.ansible/MyInventory"
   config.vm.provision "file", source: "clouds.yaml", destination: "~/.config/openstack/clouds.yaml"
   config.vm.provision "file", source: "consumer.py", destination: "~/consumer.py"
-  config.vm.provision "file", source: "producerVM2.py", destination: "~/producer.py"
 
   
   #Docker files
   config.vm.provision "file", source: "Kafka_Zoo_Deployment/dockerfile", destination: "~/Kafka_Zoo_Deployment_dockerfile"
+  config.vm.provision "file", source: "CouchDB_Deployment/dockerfile", destination: "~/couchdb_dockerfile"
   config.vm.provision "file", source: "Consumer_Deployment/dockerfile", destination: "~/consumer_dockerfile"
+
+  #Couchdb
+  config.vm.provision "file", source: "CouchDB_Deployment/local.ini", destination: "~/local.ini"
+  config.vm.provision "file", source: "CouchDB_Deployment/couchdb_job.yml", destination: "~/couchdb_job.yml"
+  config.vm.provision "file", source: "CouchDB_Deployment/couchdb_service.yml", destination: "~/couchdb_service.yml"
 
   #Transfer zookeeper files
   config.vm.provision "file", source: "Kafka_Zoo_Deployment/zookeeper_service_svc.yml", destination: "~/zookeeper_service_svc.yml"

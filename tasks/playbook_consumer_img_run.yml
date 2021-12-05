@@ -30,8 +30,8 @@
         state: present
         path: /home/cc/consumer.py
         firstmatch: yes
-        search_string: 'consumer = KafkaConsumer(bootstrap_servers="129.114.26.3:30002")'
-        line: 'consumer = KafkaConsumer(bootstrap_servers="{{ ansible_ssh_host }}:30002")'
+        search_string: 'consumer = KafkaConsumer(bootstrap_servers="129.114.26.3:30001")'
+        line: 'consumer = KafkaConsumer(bootstrap_servers="{{ ansible_ssh_host }}:30001")'
 
   - name: Make infile modification for consumer file
     ansible.builtin.lineinfile:

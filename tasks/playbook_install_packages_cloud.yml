@@ -30,6 +30,7 @@
       name:
       - kafka-python
       - couchdb
+      - tensorflow
 
     #Install JAVA SDK
   - name: Install Java

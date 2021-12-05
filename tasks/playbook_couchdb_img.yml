@@ -1,0 +1,35 @@
+#
+# Author: Ashwin and Aadarsh
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# Start couchdb image and add to registry
+#
+---
+#copy dockerfile from vagrant to VM2
+  - name: Copy docker file to VM2
+    become: no
+    copy:
+        src: ~/couchdb_dockerfile
+        dest: /home/cc/Deployment/couchdb_dockerfile
+
+  - name: Copy local.ini file to VM2
+    become: no
+    copy:
+        src: ~/local.ini
+        dest: /home/cc/local.ini
+
+
+#Create the docker image
+  - name: Create the docker image
+    shell: docker build -f /home/cc/Deployment/couchdb_dockerfile -t couchdb_image .
+
+    #Tag docker image
+  - name: Tag docker image 
+    shell: docker tag couchdb_image:latest {{ ansible_default_ipv4.address }}:5000/couchdb_image
+
+    #Push docker image
+  - name: Push docker image
+    shell: docker push {{ ansible_default_ipv4.address }}:5000/couchdb_image
+
+
+...
