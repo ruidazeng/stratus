@@ -5,6 +5,21 @@
 # Nginx Deployment and Service creation
 #
 ---
+  - name: copy nginx dockerfile
+    copy:
+        src: ../Nginx_Deployment/dockerfile_nginx
+        dest: /home/cc/Deployment/dockerfile_nginx
+
+  # spark image
+  - name: build nginx image
+    shell: docker build -f /home/cc/Deployment/dockerfile_nginx -t my-nginx .
+
+  - name: tag image
+    shell: docker tag my-nginx:latest {{ ansible_default_ipv4.address }}:5000/my-nginx
+
+  - name: push image
+    shell: docker push {{ ansible_default_ipv4.address }}:5000/my-nginx
+
 #Copy service file from vagrant to Service directory
   - name: Copy service file to VM2
     become: no

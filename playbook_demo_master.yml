@@ -10,10 +10,10 @@
 # # # Here I show the use of import_tasks from child playbooks
 # ####################################################
 # - name: "Play 1: Install packages on local VMs"
-#   hosts: 
+#   hosts:
 #     MyLocalVMs          # specified in the MyInventory file
-#   remote_user:  
-#     ubuntu      # note that the user is ubuntu for 
+#   remote_user:
+#     ubuntu      # note that the user is ubuntu for
 #                              # vagrant-created VM else use the
 #                              # appropriate user name
 
@@ -31,30 +31,30 @@
 #   hosts:
 #     MyLocalVMs
 #   connection: local
-#   collections: 
+#   collections:
 #     - openstack.cloud
 
 #   tasks:    # the task to be performed (here I am showing the effect of include_)
 #   - include_tasks: tasks/playbook_chameleon_creation.yml
 
-- name: "Add host to VMs"
-  hosts:
-    MyLocalVMs
-  connection: local
-  tasks:
-  - name: "Add VM2 to MyChameleonVMs dynamically"
-    add_host:
-      hostname: 129.114.26.3
-      ansible_connection: ssh
-      ansible_ssh_private_key_file: "/home/vagrant/.ssh/jh_ku_chameleon.key"
-      groups: MyChameleonVMs
-
-  - name: "Add VM3 to MyChameleonVMs dynamically"
-    add_host:
-      hostname: 129.114.27.157
-      ansible_connection: ssh
-      ansible_ssh_private_key_file: "/home/vagrant/.ssh/jh_ku_chameleon.key"
-      groups: MyChameleonVMs
+# - name: "Add host to VMs"
+#   hosts:
+#     MyLocalVMs
+#   connection: local
+#   tasks:
+#   - name: "Add VM2 to MyChameleonVMs dynamically"
+#     add_host:
+#       hostname: 129.114.26.3
+#       ansible_connection: ssh
+#       ansible_ssh_private_key_file: "/home/vagrant/.ssh/jh_ku_chameleon.key"
+#       groups: MyChameleonVMs
+#
+#   - name: "Add VM3 to MyChameleonVMs dynamically"
+#     add_host:
+#       hostname: 129.114.27.157
+#       ansible_connection: ssh
+#       ansible_ssh_private_key_file: "/home/vagrant/.ssh/jh_ku_chameleon.key"
+#       groups: MyChameleonVMs
 
 # ####################################################
 # ## Play 3: Install Packages on Chameleon VMs
@@ -62,7 +62,7 @@
 # - name: "Play 3: Installing packages on the VMs"
 #   hosts: MyChameleonVMs  # remember, the requestor is the local machine
 #     #update ubuntu machine
-#   remote_user:  
+#   remote_user:
 #      cc
 #   tasks:
 #   - include_tasks: tasks/playbook_install_packages_cloud.yml
@@ -92,7 +92,7 @@
 # ## Play 6: Start Kubernetes and taint master on VM2
 # ####################################################
 # - name: "Play 6: Start Kubernetes and taint master on VM2"
-#   hosts: MyChameleonVMs[0]  
+#   hosts: MyChameleonVMs[0]
 #   remote_user:  cc
 #   become: yes
 #   tasks:
@@ -102,7 +102,7 @@
 # ## Play 7: Start Kubernetes on VM3
 # ####################################################
 # - name: "Play 7: Start Kubernetes and taint master on VM2"
-#   hosts: MyChameleonVMs[1] 
+#   hosts: MyChameleonVMs[1]
 #   remote_user:  cc
 #   become: yes
 #   tasks:
@@ -112,7 +112,7 @@
 # ## Play 8: Start docker image and create registry
 # ####################################################
 # - name: "Play 8: Run docker pipeline for zookeeper, kafka"
-#   hosts: MyChameleonVMs[0]  
+#   hosts: MyChameleonVMs[0]
 #   remote_user:  cc
 #   become: yes
 #   tasks:
@@ -121,13 +121,13 @@
   # - include_tasks: tasks/playbook_kafka_service_start.yml
   # - include_tasks: tasks/playbook_couchdb_img.yml
   # - include_tasks: tasks/playbook_couchdb_run.yml
-  
+
 
 # ####################################################
 # ## Play 10: Run Spark Pipeline
 # ####################################################
 # - name: "Play 10: Run Spark Pipeline"
-#   hosts: MyChameleonVMs[0]  
+#   hosts: MyChameleonVMs[0]
 #   remote_user:  cc
 #   become: yes
 #   tasks:
@@ -138,22 +138,21 @@
 # ####################################################
 # ## Play 11: Run Nginx Pipeline
 # ####################################################
-# - name: "Play 11: Run Nginx Pipeline"
-#   hosts: MyChameleonVMs[0]  
-#   remote_user:  cc
-#   become: yes
-#   tasks:
-#   - include_tasks: tasks/playbook_nginx_deployment.yml
+- name: "Play 11: Run Nginx Pipeline"
+  hosts: MyChameleonVMs[0]
+  remote_user:  cc
+  become: yes
+  tasks:
+  - include_tasks: tasks/playbook_nginx_deployment.yml
 
 # ####################################################
 # ## Play 12: Run Consumer
 # ####################################################
 # - name: "Play 12: Run Consumer"
-#   hosts: MyChameleonVMs[0]  
+#   hosts: MyChameleonVMs[0]
 #   remote_user:  cc
 #   become: yes
 #   tasks:
 #   - include_tasks: tasks/playbook_consumer_img_run.yml
 
 ...
-

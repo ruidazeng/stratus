@@ -19,8 +19,11 @@ spec:                     # This is the specification where we can even put the 
         app: nginx        # some label to give to this pod (see the matching label above)
     spec:                 # actual specification
       containers:
+
       - name: nginx       # Used by DNS
-        image: nginx:1.14.2   # this is the image name on hub.docker or if you have one locally. We use an older
+        image: 129.114.25.80:5000/my-nginx:latest
+        imagePullPolicy: Always  # This forces the node to pull the image
+        # image: nginx:1.14.2   # this is the image name on hub.docker or if you have one locally. We use an older
                           # and then show how we can upgrade to newer version
         ports:            # Since nginx is a web server, we let it listen on port 80 in the container
         - containerPort: 80
