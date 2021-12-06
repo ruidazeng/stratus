@@ -64,7 +64,7 @@ spark_model = SparkModel(model, frequency='epoch', num_workers=5, mode='synchron
 
 # Train Spark model
 start_time = time.time()
-spark_model.fit(rdd, epochs=epochs, batch_size=batch_size, verbose=4, validation_split=0.1)
+spark_model.fit(rdd, epochs=epochs, batch_size=batch_size, verbose=10, validation_split=0.1)
 end_time = time.time()
 # Evaluate Spark model by evaluating the underlying model
 score = spark_model.evaluate(x_test, y_test, verbose=2)

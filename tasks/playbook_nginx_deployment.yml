@@ -7,12 +7,17 @@
 ---
   - name: copy nginx dockerfile
     copy:
-        src: ../Nginx_Deployment/dockerfile_nginx
-        dest: /home/cc/Deployment/dockerfile_nginx
+        src: ~/nginx_dockerfile
+        dest: /home/cc/Deployment/nginx_dockerfile
+
+  - name: copy index.html
+    copy:
+      src: ~/index.html
+      dest: /home/cc/index.html
 
   # spark image
   - name: build nginx image
-    shell: docker build -f /home/cc/Deployment/dockerfile_nginx -t my-nginx .
+    shell: docker build -f /home/cc/Deployment/nginx_dockerfile -t my-nginx .
 
   - name: tag image
     shell: docker tag my-nginx:latest {{ ansible_default_ipv4.address }}:5000/my-nginx
@@ -33,6 +38,16 @@
     copy:
         src: ~/nginx-deployment.yml
         dest: /home/cc/Service/nginx-deployment.yml
+
+#Make infile modification for service job file
+  - name: Make infile modification for deployment job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/nginx-deployment.yml
+        firstmatch: yes
+        search_string: 'image: 129.114.25.80:5000/my-nginx:latest'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/my-nginx'
+
 
 #start job with service
   - name: Create the nginx service

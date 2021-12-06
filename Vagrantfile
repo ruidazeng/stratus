@@ -94,6 +94,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "Kafka_Zoo_Deployment/dockerfile", destination: "~/Kafka_Zoo_Deployment_dockerfile"
   config.vm.provision "file", source: "CouchDB_Deployment/dockerfile", destination: "~/couchdb_dockerfile"
   config.vm.provision "file", source: "Consumer_Deployment/dockerfile", destination: "~/consumer_dockerfile"
+  config.vm.provision "file", source: "Nginx_Deployment/dockerfile", destination: "~/nginx_dockerfile"
+
 
   #Couchdb
   config.vm.provision "file", source: "CouchDB_Deployment/local.ini", destination: "~/local.ini"
@@ -137,7 +139,7 @@ Vagrant.configure("2") do |config|
   #Nginx Deployment and Service 
   config.vm.provision "file", source: "Nginx_Deployment/nginx-deployment.yml", destination: "~/nginx-deployment.yml"
   config.vm.provision "file", source: "Nginx_Deployment/nginx-service.yml", destination: "~/nginx-service.yml"
-
+  config.vm.provision "file", source: "Nginx_Deployment/index.html", destination: "~/index.html"
 
   # make sure the permissions on the  pem file are not too open.
   # Note, here I show you using inline and privileged: false so the inline
