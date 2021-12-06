@@ -1,7 +1,7 @@
 #
 #
-# Author: 
-# 
+# Author:
+#
 #
 import json
 import os  # need this for popen
@@ -30,16 +30,16 @@ nb_classes = 10
 
 # prepare images for Conv2D layer
 # reshape dataset to have a single channel
-x_train = x_train.reshape((x_train.shape[0], 28, 28, 1))
+#x_train = x_train.reshape((x_train.shape[0], 28, 28, 1))
 x_test = x_test.reshape((x_test.shape[0], 28, 28, 1))
 
 # Convert data to float
 # This is a keras specific step
-x_train = x_train.astype('float32')
+#x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
 
 # scale the pixel values from [0,255] to [0,1]
-x_train /= 255
+#x_train /= 255
 x_test /= 255
 
 
@@ -73,4 +73,3 @@ for i in range(len(key_array)):
     col = df[key_array[i]].dropna()
     print('Key: {}, Output: {}, Actual: {}'.format(key_array[i],
                 col[list(col.keys())[0]], output_results[i]))
-
