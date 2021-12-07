@@ -1,6 +1,6 @@
 #
 #
-# Author: 
+# Author: Group 4 and 5 
 # 
 #
 import json
@@ -43,6 +43,8 @@ x_train /= 255
 x_test /= 255
 
 
+print(x_test[0])
+
 # Select five images to send and get results
 send_array = x_test[0:10]
 output_results = y_test[0:10]
@@ -50,7 +52,7 @@ output_results = y_test[0:10]
 producer = KafkaProducer(bootstrap_servers="129.114.26.3:30001", api_version=(0, 1, 0), acks=0)
 key_array = []
 
-for i in range(len(send_array)):
+for i in range(len(send_array)):    
     key = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 7))
     key_array.append(key)
     # print('Key: {}, Value: {}'.format(key, output_results[i]))
