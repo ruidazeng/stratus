@@ -45,8 +45,13 @@ function mouseReleased() {
     },
     success: function(result) {
       let getCurrentData = document.querySelector('#prediction').innerHTML
-      console.log(getCurrentData)
-      $("#prediction").html(result.prediction)
+
+      if (getCurrentData == "Please Input A Number") {
+        // we can skip this
+        $("#prediction").html(result.prediction)
+      } else {
+        $("#prediction").html(getCurrentData + " " + result.prediction)
+      }
     },
   });
 }
