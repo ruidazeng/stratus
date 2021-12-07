@@ -1,5 +1,8 @@
 let test;
 
+// we can just make an array of previous predictions
+let composition = [] 
+
 function setup() {
   let cnv = createCanvas(200, 200);
   background(0)
@@ -31,6 +34,8 @@ function keyPressed() {
 
 function mouseReleased() {
   let data = guessUserDigit()
+
+  console.log(data)
 
   $.ajax({
     type: "POST",
