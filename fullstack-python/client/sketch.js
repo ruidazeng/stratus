@@ -35,16 +35,18 @@ function keyPressed() {
 function mouseReleased() {
   let data = guessUserDigit()
 
-  console.log(data)
+  console.log(typeof(JSON.stringify(data)))
 
   $.ajax({
     type: "POST",
-    url: "https://mnistonline.herokuapp.com/predict/",
+    url: "http://127.0.0.1:5000/predict",
     data: {
-      'arr': JSON.stringify(data)
+      'image': JSON.stringify(data)
     },
     success: function(result) {
-      $("#prediction").html(result)
+      let getCurrentData = document.querySelector('#prediction').innerHTML
+      console.log(getCurrentData)
+      $("#prediction").html(result.prediction)
     },
   });
 }
