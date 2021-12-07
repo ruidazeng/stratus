@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CS 4287: Deep Learning In The Cloud</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="sketch.js"></script>
+    <style>
+        section {
+            padding-top: 2em;
+        }
+        .box-shadow {
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+        }
+        .lol {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="first">
+        <div class="container">
+            <div class="jumbotron">
+              <h1 class="display-4">Stratus ☁️</h1>
+              <p class="lead">CS 4287: Deep Learning In The Cloud.</p>
+              <hr class="my-4">
+              <p>Just draw a <strong>number</strong> on the canvas and let the machine predict. Hit <strong>space</strong> to redraw.</p>
+              <p>Credit to: <a href="https://github.com/paulbellmann/mnist">github.com/paulbellmann</a> for base front-end code.</p>
+              <p>Source code available at: <a href="https://github.com/aadarshjha/stratus">github.com/aadarshjha/stratus</a></p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="second">
+        <div class="container">
+                <div class="card-deck">
+
+                    <div class="card mb-5 box-shadow text-center">
+                        <h4 class="card-header">Draw here!</h4>
+                        <div class="card-body" id="drawing"></div>
+                    </div>
+
+                    <div class="card mb-5 box-shadow text-center">
+                        <h4 class="card-header">Predictions</h4>
+                        <div class="card-body">
+                            <div class="lol">
+                                <p>It is probably a...</p>
+                                <h1 id="prediction">0</h1>
+                                <p>but it could also be something different</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+        </div>
+    </section>
+    
+</body>
+</html>
