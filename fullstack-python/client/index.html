@@ -25,6 +25,15 @@
         .lol {
             padding: 2rem;
         }
+        button {
+            margin: 0.1rem; 
+            width: 70%;
+        }
+        .flex {
+            display: flex;
+            flex-direction: row;
+            margin: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -49,8 +58,13 @@
                     <div class="card mb-5 box-shadow text-center">
                         <h4 class="card-header">Draw here!</h4>
                         <div class="card-body" id="drawing"></div>
-                    </div>
 
+                        <div class="flex"> 
+                            <button  class="btn btn-primary" onclick="clearViaButton()">Clear Canvas</button>
+                            <button class="btn btn-secondary" onclick="predictText()">Predict</button>
+                            <button  class="btn btn-dark" onclick="clearPrediction()">Clear Predictions</button>
+                        </div>
+                    </div>
                     <div class="card mb-5 box-shadow text-center">
                         <h4 class="card-header">Predictions</h4>
                         <div class="card-body">
@@ -61,9 +75,9 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
         </div>
+
     </section>
     
 </body>

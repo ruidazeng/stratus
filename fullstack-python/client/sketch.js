@@ -32,7 +32,16 @@ function keyPressed() {
   }
 }
 
-function mouseReleased() {
+function clearViaButton() {
+  user_digit.background(0)
+}
+
+
+function clearPrediction() {
+  $("#prediction").html("Please Input A Number")
+}
+
+function predictText() {
   let data = guessUserDigit()
 
   console.log(typeof(JSON.stringify(data)))
