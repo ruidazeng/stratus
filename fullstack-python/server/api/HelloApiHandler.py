@@ -52,7 +52,8 @@ class HelloApiHandler(Resource):
 
 
 def predict(img):
-    producer = KafkaProducer(bootstrap_servers="129.114.26.3:30001", api_version=(0, 1, 0), acks=0)
+    randValue = random.randint(1,3)
+    producer = KafkaProducer(bootstrap_servers="129.114.26.3:3000{}".format(randValue), api_version=(0, 1, 0), acks=0)
 
     key = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 7))
     producer.send("utilizations2", json.dumps({key : img.tolist()}).encode('utf-8'))

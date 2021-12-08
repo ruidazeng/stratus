@@ -1,0 +1,75 @@
+#
+# Author: Team 4 and 5
+# EECS 4287/5287: Principles of Cloud Computing
+#
+# flask job and Service creation
+#
+---
+## Image Creation ###
+  - name: copy flask dockerfile
+    copy:
+        src: /vagrant/Flask_Deployment/dockerfile
+        dest: /home/cc/Deployment/flask_dockerfile
+
+  - name: copy requirements.txt
+    copy:
+        src: /vagrant/fullstack-python/server/requirements.txt
+        dest: /home/cc/requirements.txt
+
+  - name: copy app.py
+    copy:
+        src: /vagrant/fullstack-python/server/app.py
+        dest: /home/cc/app.py
+
+  - name: copy HelloApiHandler.py
+    copy:
+        src: /vagrant/fullstack-python/server/api/HelloApiHandler.py
+        dest: /home/cc/HelloApiHandler.py
+
+
+  #Create the docker image
+  - name: Create the docker image
+    shell: docker build -f /home/cc/Deployment/flask_dockerfile -t flask_image .
+
+    #Tag docker image
+  - name: Tag docker image 
+    shell: docker tag flask_image:latest {{ ansible_default_ipv4.address }}:5000/flask_image
+
+    #Push docker image
+  - name: Push docker image
+    shell: docker push {{ ansible_default_ipv4.address }}:5000/flask_image
+
+
+#Copy service file from vagrant to Service directory
+  - name: Copy service file to VM2
+    become: no
+    copy:
+        src: /vagrant/Flask_Deployment/flask_service.yml
+        dest: /home/cc/Service/flask_service.yml
+
+#Copy job file from vagrant to Service directory
+  - name: Copy job file to VM2
+    become: no
+    copy:
+        src: /vagrant/Flask_Deployment/flask_job.yml
+        dest: /home/cc/Service/flask_job.yml
+
+#Make infile modification for service job file
+  - name: Make infile modification for service job file
+    ansible.builtin.lineinfile:
+        state: present
+        path: /home/cc/Service/flask_job.yml
+        firstmatch: yes
+        search_string: 'image: localhost:5000/matinv-server'
+        line: '          image: {{ ansible_default_ipv4.address }}:5000/flask_image'
+
+#start job with service
+  - name: Create the flask service
+    become: no
+    shell: kubectl apply -f /home/cc/Service/flask_service.yml
+
+  - name: Start flask job
+    become: no
+    shell: kubectl apply -f /home/cc/Service/flask_job.yml
+
+...

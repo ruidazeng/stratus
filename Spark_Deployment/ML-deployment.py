@@ -71,4 +71,4 @@ score = spark_model.evaluate(x_test, y_test, verbose=2)
 print('Test accuracy:', score[1])
 
 np.savetxt('results.txt', [end_time-start_time, score[1]], fmt="%f")
-spark_model.save('mnist_model')
+spark_model.save('mnist_model.h5')

@@ -1,5 +1,5 @@
 #
-# Author: Ashwin and Aadarsh
+# Author: Team 4 and 5
 # EECS 4287/5287: Principles of Cloud Computing
 #
 # Nginx Deployment and Service creation
@@ -12,8 +12,13 @@
 
   - name: copy index.html
     copy:
-      src: ~/index.html
+      src: /vagrant/fullstack-python/client/index.html
       dest: /home/cc/index.html
+  
+  - name: copy sketch.js
+    copy:
+      src: /vagrant/fullstack-python/client/sketch.js
+      dest: /home/cc/sketch.js
 
   # spark image
   - name: build nginx image

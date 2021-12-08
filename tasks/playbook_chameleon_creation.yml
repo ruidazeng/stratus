@@ -20,7 +20,7 @@
         name: team_4_5_VM2
         image: 2067e3e4-057b-4fb9-a7f9-e8688cd5012b
         key_name: jh_ku_chameleon
-        flavor: m1.xlarge
+        flavor: m1.large
         timeout: 500
         security_groups: 
           - ENABLE_HTTP_HTTPS
@@ -30,7 +30,7 @@
         nics:
           - net_id: 4b484898-92b4-4a4b-9c5d-7d55bd72f1ee
           - net-name: CH-819381-net
-        auto_ip: yes
+        floating_ips: 129.114.26.3
     register: output
   
   - name: Print VM2 output
@@ -58,7 +58,7 @@
         name: team_4_5_VM3
         image: 2067e3e4-057b-4fb9-a7f9-e8688cd5012b
         key_name: jh_ku_chameleon
-        flavor: m1.xlarge
+        flavor: m1.medium
         timeout: 500
         security_groups: 
           - ENABLE_HTTP_HTTPS
@@ -68,7 +68,7 @@
         nics:
           - net_id: 4b484898-92b4-4a4b-9c5d-7d55bd72f1ee
           - net-name: CH-819381-net
-        auto_ip: yes
+        floating_ips: 129.114.27.157
     register: output
 
   - name: Print VM3 output
