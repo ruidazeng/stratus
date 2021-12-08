@@ -15,9 +15,9 @@ function setup() {
 
 function draw() {
   image(user_digit, 0, 0)
-  if (test) {
-    image(test, 0, 0)
-  }
+  // if (test) {
+  //   image(test, 0, 0)
+  // }
 }
 
 function mouseDragged() {
