@@ -39,6 +39,7 @@ function clearViaButton() {
 
 function clearPrediction() {
   $("#prediction").html("Please Input A Number")
+  clearGraph() 
 }
 
 function predictText() {
@@ -49,21 +50,37 @@ function predictText() {
   $.ajax({
     type: "POST",
     url: "http://129.114.26.3:30005/predict",
-    // url: "http://127.0.0.1:5000/predict",
     data: {
       'image': JSON.stringify(data)
     },
     success: function(result) {
       let getCurrentData = document.querySelector('#prediction').innerHTML
 
+      // console.log(JSON.parse(result.prediction).Answer)
+
       if (getCurrentData == "Please Input A Number") {
         // we can skip this
-        $("#prediction").html(result.prediction)
+        $("#prediction").html(JSON.parse(result.prediction).Answer)
       } else {
-        $("#prediction").html(getCurrentData + " " + result.prediction)
+        $("#prediction").html(getCurrentData + " " + JSON.parse(result.prediction).Answer)
       }
+
+      // list out in a graph 
+      graphPrediction(JSON.parse(result.prediction).Prob)
     },
   });
+}
+
+function graphPrediction(graphArray) {
+  // console.log(graphArray)
+  // replace the data there: (at first its all zeros)
+  myChart.data.datasets[0].data = graphArray
+  myChart.update()
+}
+
+function clearGraph() {
+  myChart.data.datasets[0].data = [0,0,0,0,0,0,0,0,0]
+  myChart.update()
 }
 
 function guessUserDigit() {
