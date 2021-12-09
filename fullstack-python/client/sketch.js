@@ -40,6 +40,7 @@ function clearViaButton() {
 function clearPrediction() {
   $("#prediction").html("Please Input A Number")
   clearGraph() 
+  clearViaButton()
 }
 
 function predictText() {
