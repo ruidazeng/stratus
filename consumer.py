@@ -42,7 +42,7 @@ for msg in consumer:
     msg_dict = dict(json.loads(msg.value))
     key = list(msg_dict.keys())[0]
     image = np.reshape(np.array(msg_dict[key]), (1, 28, 28, 1))
-    ynew = np.argmax(model.predict(image))
+    ynew = model.predict(image)
     print('Key: {}, Output: {}'.format(key, ynew))
     db.save({key : str(ynew)})
 

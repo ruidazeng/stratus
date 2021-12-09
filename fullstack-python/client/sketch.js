@@ -49,6 +49,7 @@ function predictText() {
   $.ajax({
     type: "POST",
     url: "http://129.114.26.3:30005/predict",
+    // url: "http://127.0.0.1:5000/predict",
     data: {
       'image': JSON.stringify(data)
     },

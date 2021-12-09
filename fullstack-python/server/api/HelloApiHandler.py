@@ -10,6 +10,7 @@ import string
 import json
 import numpy
 import pandas as pd
+import numpy as np
 
 class HelloApiHandler(Resource):
   def get(self):
@@ -71,8 +72,21 @@ def predict(img):
     df = pd.DataFrame(data)
 
 
-    col = df[key].dropna()
-    answer = col[list(col.keys())[0]]
+    col = np.array(df[key].dropna())[0]
+    col = col.replace('[', '')
+    col = col.replace(']', '')
+    col = col.replace('\n', '')
+    col = col.replace('', '')
+    col = col.split(' ')
+    
+    col_corrected = []
+    for val in col:
+      if val != '':
+        col_corrected.append(float(val))
+    
+    print(col_corrected)
+    answer = str(np.argmax(col_corrected))
+    # answer = np.argmax(col[list(col.keys())[0]])
     print('Key: {}, Output: {}'.format(key, answer))
 
-    return answer
+    return json.dumps({'Answer' : answer, 'Prob' : col_corrected})

@@ -16,6 +16,7 @@ RUN pip3 install tensorflow
 RUN pip3 install pandas
 RUN pip3 install couchdb
 RUN pip3 install kafka-python
+RUN pip3 install numpy
 
 COPY app.py /
 
