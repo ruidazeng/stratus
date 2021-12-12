@@ -1,5 +1,6 @@
 # pip3 install locust
 # locust
+# http://localhost:8089/
 
 from locust import HttpUser, task
 
