@@ -1,5 +1,7 @@
 # Stratus
 
+<img src="https://github.com/user-attachments/assets/cd996a6b-7aca-451d-aee7-ea75b6e9d465" alt="stratus" width="400"/>
+
 ## Cloud-Based Deep Learning for Handwritten Digit Recognition
 
 **Stratus** is a cloud-deployed, end-to-end deep learning solution designed to recognize handwritten digits in real time. This project integrates cloud computing and distributed deep learning principles to deliver a scalable, production-grade pipeline for digit recognition. It leverages an ensemble of cloud-based tools and modern full-stack technologies to streamline real-time predictions via a web interface.
