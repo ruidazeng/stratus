@@ -1,6 +1,16 @@
 # Stratus
 
+**Authors**: Ruida Zeng, Aadarsh Jha, Ashwin Kumar, Terry Luo  
+**arXiv Link**: [Cloud-Based Deep Learning: End-To-End Full-Stack Handwritten Digit Recognition](https://arxiv.org/abs/2304.13506)
+
+**Vanderbilt University Fall 2021 Immersion Vanderbilt Project** – [Program Information](https://www.vanderbilt.edu/immersion/)  
+**Professor & Faculty Mentor**: Dr. Aniruddha Gokhale, Professor of Computer Science, Vanderbilt University
+
 <img src="https://github.com/user-attachments/assets/cd996a6b-7aca-451d-aee7-ea75b6e9d465" alt="stratus" width="400"/>
+
+## Cloud-Based Deep Learning for Handwritten Digit Recognition
+
+**Stratus** is a cloud-deployed, end-to-end deep learning application for real-time handwritten digit recognition. It combines cloud infrastructure and
 
 ## Cloud-Based Deep Learning for Handwritten Digit Recognition
 
