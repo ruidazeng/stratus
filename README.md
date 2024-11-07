@@ -106,11 +106,4 @@ Potential improvements include:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Contributors
-
-- [Ruida Zeng](https://github.com/ruidazeng)
-- [Aadarsh Jha](https://github.com/aadarshjha)
-- [Ashwin Kumar](https://github.com/ashwinkumargb)
-- [Terry Luo](https://github.com/t-luo)
-
-For questions, feel free to reach out via GitHub Issues or email.
+## For questions, feel free to reach out via GitHub Issues or email.
