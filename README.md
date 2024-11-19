@@ -10,7 +10,7 @@
 
 [**Overview**](#overview) | [**Demo**](#demo) | [**Features**](#features) | [**Tech Stack**](#tech-stack) | [**Architecture**](#architecture) | [**Installation**](#installation-and-setup) | [**Evaluation**](#evaluation) | [**Future Directions**](#future-directions)
 
-<img src="https://github.com/user-attachments/assets/cd996a6b-7aca-451d-aee7-ea75b6e9d465" alt="stratus" width="400"/>
+<img src="misc/stratus.jpg" alt="stratus" width="400"/>
 </div>
 
 ---
