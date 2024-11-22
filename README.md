@@ -8,7 +8,7 @@
 <a href='https://www.vanderbilt.edu/immersion/'><img src='https://img.shields.io/badge/Program-Immersion%20Vanderbilt-Green'></a>
 <a href='https://www.ruidazeng.com/files/Cloud-Based%20Deep%20Learning%20End-To-End%20Full-Stack%20Handwritten%20Digit%20Recognition.pdf'><img src='https://img.shields.io/badge/Report-Technical-blue'></a>
 
-[**Overview**](#overview) | [**Demo**](#demo) | [**Features**](#features) | [**Tech Stack**](#tech-stack) | [**Architecture**](#architecture) | [**Installation**](#installation-and-setup) | [**Evaluation**](#evaluation) | [**Future Directions**](#future-directions)
+[**About**](#about) | [**Overview**](#overview) | [**Demo**](#demo) | [**Features**](#features) | [**Tech Stack**](#tech-stack) | [**Architecture**](#architecture) | [**Installation**](#installation-and-setup) | [**Evaluation**](#evaluation) | [**Future Directions**](#future-directions)
 
 <img src="misc/stratus.jpg" alt="stratus" width="400"/>
 </div>
