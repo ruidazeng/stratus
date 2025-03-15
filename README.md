@@ -102,7 +102,7 @@ The project has been rigorously tested for:
 - **Load Balancing**: Stress tests were conducted to determine the optimal user load for fast and reliable predictions.
 - **Response Time**: System is optimized for minimal response time under various user loads.
 
-For more details on testing and evaluation, see the [technical report](https://www.ruidazeng.com/files/Cloud-Based%20Deep%20Learning%20End-To-End%20Full-Stack%20Handwritten%20Digit%20Recognition.pdf).
+For more details on testing and evaluation, see the [technical report](https://arxiv.org/abs/2304.13506).
 
 ## Future Directions
 
